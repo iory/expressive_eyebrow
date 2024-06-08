@@ -3,6 +3,9 @@
 Servo servo1;  // サーボモーター1を制御するためのオブジェクト
 Servo servo2;  // サーボモーター2を制御するためのオブジェクト
 Servo servo3;  // サーボモーター3を制御するためのオブジェクト
+Servo servo4;
+Servo servo5;
+Servo servo6;
 
 int potPin = A0;  // ポテンショメータの接続ピン（アナログ入力）
 int currentServo = 1;  // 現在制御中のサーボモーター
@@ -15,6 +18,9 @@ void setup() {
   servo1.attach(7);    // 7番ピンをサーボモーター1の制御ピンに設定
   servo2.attach(8);    // 8番ピンをサーボモーター2の制御ピンに設定
   servo3.attach(9);    // 9番ピンをサーボモーター3の制御ピンに設定
+  servo4.attach(10);
+  servo5.attach(11);
+  servo6.attach(12);
 }
 
 void loop() {
@@ -44,12 +50,15 @@ void loop() {
   switch (currentServo) {
     case 1:
       servo1.write(angle);
+      servo4.write(212-angle);
       break;
     case 2:
       servo2.write(angle);
+      servo5.write(184-angle);
       break;
     case 3:
       servo3.write(angle);
+      servo6.write(180-angle);
       break;
   }
 

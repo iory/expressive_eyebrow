@@ -74,6 +74,9 @@ void set(int angle1, int angle2, int angle3) {
   servo1.write(angle1);
   servo2.write(angle2);
   servo3.write(angle3);
+  servo4.write(212-angle1);
+  servo5.write(184-angle2);
+  servo6.write(180-angle3);
   
   delay(3000);
 }

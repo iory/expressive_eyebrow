@@ -6,8 +6,8 @@ Servo servo2;
 //Servo servo4;
 
 void setup() {
-  servo1.attach(8); // ８番ピンの出力をサーボ制御用に宣言します。
-  servo2.attach(9); // ９番ピン宣言。
+  servo1.attach(11); // ８番ピンの出力をサーボ制御用に宣言します。
+  servo2.attach(12); // ９番ピン宣言。
   //servo3.attach(10); // １０番ピン宣言。
   //servo4.attach(11); // １１番ピン宣言。
 }
@@ -16,7 +16,7 @@ void loop() {
   // Step.0 又は Step.5「中立位置／重心を戻す」
   // 90度（ニュートラル）
   //walk(90, 90, 90, 90);
-  walk(90, 90);
+  walk(0, 0);
   // Step.1「左足に重心を乗せる」
   /*walk(
     90,
@@ -58,7 +58,7 @@ void loop() {
   );
   */
   // Step.5　はループの先頭に戻る 
-  walk(0,180);
+  //walk(0,180);
 
 }
 
