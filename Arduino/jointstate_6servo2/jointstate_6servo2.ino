@@ -19,15 +19,8 @@ void jointStateCallback(const sensor_msgs::JointState &msg) {
     
   // Check if angles are within expected range
   if ((angle1 >= 83 && angle1 <= 124) && (angle2 >= 72 && angle2 <= 132) && (angle3 >= 0 && angle3 <= 180)) {
-    Serial.print("Received joint_states: ");
-    Serial.print(angle1);
-    Serial.print(", ");
-    Serial.print(angle2);
-    Serial.print(", ");
-    Serial.println(angle3);
     set(angle1, angle2, angle3);
   } else {
-    Serial.println("Received out of range joint_states");
   }
 }
 
