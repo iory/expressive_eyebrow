@@ -11,6 +11,16 @@ Servo servo6;
 
 ros::NodeHandle nh;
 
+void set(int angle1, int angle2, int angle3) {
+  servo1.write(angle1);
+  servo2.write(angle2);
+  servo3.write(angle3);
+  servo4.write(212 - angle1);
+  servo5.write(184 - angle2);
+  servo6.write(174 - angle3);
+}
+  
+
 void jointStateCallback(const sensor_msgs::JointState &msg) {
   // Assuming that msg.position is always of size 3 for our use case
   int angle1 = static_cast<int>(msg.position[0]); // Assume input is in degrees
@@ -34,25 +44,14 @@ void setup() {
   servo5.attach(11);
   servo6.attach(12);
 
+  nh.getHardware()->setBaud(57600); //これをinitnodeの前に書く
   nh.initNode();
-  nh.getHardware()->setBaud(57600);
   nh.subscribe(sub);
 
-  Serial.begin(57600); // Debugging output
+  //Serial.begin(38400); // Debugging output
 }
 
 void loop() {
   nh.spinOnce();
   delay(10);
 }
-
-void set(int angle1, int angle2, int angle3) {
-  servo1.write(angle1);
-  servo2.write(angle2);
-  servo3.write(angle3);
-  servo4.write(212 - angle1);
-  servo5.write(184 - angle2);
-  servo6.write(174 - angle3);
-  
-}
-
