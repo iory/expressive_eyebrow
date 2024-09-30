@@ -1,1 +1,1 @@
-{"type": "library", "name": "ros_lib", "version": "0.0.0+20240927172557", "spec": {"owner": null, "id": null, "name": "ros_lib", "requirements": null, "uri": "file:///home/leus/Downloads/nano_every/libs/ros_lib"}}
+{"type": "library", "name": "ros_lib", "version": "0.0.0+20240930212325", "spec": {"owner": null, "id": null, "name": "ros_lib", "requirements": null, "uri": "file:///home/leus/expressive_eyebrow/nano_every/libs/ros_lib"}}
