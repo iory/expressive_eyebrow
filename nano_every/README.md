@@ -14,5 +14,5 @@ pip install platformio
 ## 書き込み
 
 ```
-pio run -t upload -e jointstate_6servo2
+pio run -t upload -e jointstate_6servo4
 ```
