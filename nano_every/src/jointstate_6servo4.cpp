@@ -19,9 +19,9 @@ void set(int angle1, int angle2, int angle3) {
   servo1.write(angle1);
   servo2.write(angle2);
   servo3.write(angle3);
-  servo4.write(207 - angle1);
+  servo4.write(227 - angle1);
   servo5.write(214 - angle2);
-  servo6.write(174 - angle3);
+  servo6.write(179 - angle3);
 
 }
 
@@ -55,12 +55,12 @@ ros::Subscriber<sensor_msgs::JointState> sub("joint_states", &jointStateCallback
 // ros::Subscriber<sensor_msgs::JointState> sub("joint_states", &jointStateCallback);
 
 void setup() {
-  servo1.attach(7);
+  servo1.attach(9);
   servo2.attach(8);
-  servo3.attach(9);
+  servo3.attach(12);
   servo4.attach(10);
-  servo5.attach(11);
-  servo6.attach(12);
+  servo5.attach(7);
+  servo6.attach(11);
 
   nh.getHardware()->setBaud(115200);
   nh.initNode();

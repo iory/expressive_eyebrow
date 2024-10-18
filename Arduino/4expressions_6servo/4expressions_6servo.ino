@@ -9,12 +9,12 @@ Servo servo6;
 
 
 void setup() {
-  servo1.attach(7);    // 7番ピンをサーボモーター1の制御ピンに設定
+  servo1.attach(9);    // 7番ピンをサーボモーター1の制御ピンに設定
   servo2.attach(8);    // 8番ピンをサーボモーター2の制御ピンに設定
-  servo3.attach(9);    // 9番ピンをサーボモーター3の制御ピンに設定
+  servo3.attach(12);    // 9番ピンをサーボモーター3の制御ピンに設定
   servo4.attach(10);
-  servo5.attach(11);
-  servo6.attach(12);
+  servo5.attach(7);
+  servo6.attach(11);
 }
 
 void loop() {
