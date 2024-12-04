@@ -16,6 +16,11 @@ float servo_now1 = 100;
 float servo_now2 = 80;
 float servo_now3 = 45;
 
+uint8_t angle1;
+uint8_t angle2;
+uint8_t angle3;
+bool newAnglesReceived = false;
+
 int delay_time = 1500;
 
 // サーボを指定された角度に移動させる関数
@@ -45,53 +50,57 @@ void delayAndMoveServo(int delay_time, int angle1, int angle2, int angle3) {
   }
 }
 
+static char gBuf[255];
+
 void onReceive(int inNumOfRecvBytes) {
   digitalWrite(LED_BUILTIN, HIGH);
   Serial.println("onReceive called");
 
   const int numOfAngles = 3;
-  const int bytesPerDouble = 8; // float64 is 8 bytes
-  unsigned char buffer[numOfAngles * bytesPerDouble];
+  unsigned char buffer[numOfAngles];
 
   // Check if the received bytes are sufficient
-  if (Wire.available() >= numOfAngles * bytesPerDouble) {
-    digitalWrite(2, LOW);
-    for (int i = 0; i < numOfAngles * bytesPerDouble; i++) {
+  unsigned char packetType = Wire.read();
+  sprintf(gBuf,"%02X ", packetType);
+  Serial.println(gBuf);
+
+  if (packetType != 1) {
+    Serial.println("invalid Packet Type");
+    digitalWrite(LED_BUILTIN, LOW);
+    while (Wire.available()) {
+      Wire.read();
+    }
+    return;
+  }
+
+  if (Wire.available() >= numOfAngles) {
+    for (int i = 0; i < numOfAngles; i++) {
       buffer[i] = Wire.read();
     }
-
-    double angles[numOfAngles];
-    for (int i = 0; i < numOfAngles; i++) {
-      // Combine 8 bytes into a double
-      memcpy(&angles[i], &buffer[i * bytesPerDouble], bytesPerDouble);
+    while (Wire.available()) {
+      Wire.read();
     }
-
-    double angle1 = angles[0];
-    double angle2 = angles[1];
-    double angle3 = angles[2];
-
+    angle1 = buffer[0];
+    angle2 = buffer[1];
+    angle3 = buffer[2];
     Serial.print("Angle1: ");
-    Serial.println(angle1, 6); // Print with precision
+    Serial.println(angle1);
     Serial.print("Angle2: ");
-    Serial.println(angle2, 6);
+    Serial.println(angle2);
     Serial.print("Angle3: ");
-    Serial.println(angle3, 6);
-
-    if ((angle1 >= 83.0 && angle1 <= 124.0) &&
-        (angle2 >= 72.0 && angle2 <= 132.0) &&
-        (angle3 >= 0.0 && angle3 <= 180.0)) {
-      delayAndMoveServo(delay_time, angle1, angle2, angle3);
-      delay(10);
-      digitalWrite(2, HIGH);
+    Serial.println(angle3);
+    if ((angle1 >= 83 && angle1 <= 124) &&
+        (angle2 >= 72 && angle2 <= 132) &&
+        (angle3 >= 0 && angle3 <= 180)) {
+      newAnglesReceived = true;
     } else {
       Serial.println("Angles are out of range.");
     }
   } else {
     Serial.println("Insufficient data received.");
   }
-
   Serial.println("onReceive end");
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(LED_BUILTIN, HIGH);
 }
 
 
@@ -101,7 +110,7 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);
+  digitalWrite(2, LOW);
 
   // サーボのピンに接続
   servo1.attach(9);
@@ -118,5 +127,11 @@ void setup() {
 
 // loop()関数
 void loop() {
+  if (newAnglesReceived) {
+    digitalWrite(2, LOW);
+    delayAndMoveServo(delay_time, angle1, angle2, angle3);
+    digitalWrite(2, HIGH);
+    newAnglesReceived = false;
+  }
   delay(1);  // 1ミリ秒の遅延
 }
