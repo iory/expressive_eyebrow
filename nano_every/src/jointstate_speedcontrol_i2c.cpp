@@ -25,6 +25,7 @@ int delay_time = 1500;
 
 // サーボを指定された角度に移動させる関数
 void moveServo(int angle1, int angle2, int angle3) {
+  digitalWrite(2, LOW);
   servo1.write(angle1);
   servo2.write(angle2);
   servo3.write(angle3);
@@ -128,7 +129,7 @@ void setup() {
 // loop()関数
 void loop() {
   if (newAnglesReceived) {
-    digitalWrite(2, LOW);
+    // digitalWrite(2, LOW);
     delayAndMoveServo(delay_time, angle1, angle2, angle3);
     digitalWrite(2, HIGH);
     newAnglesReceived = false;
