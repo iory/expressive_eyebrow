@@ -55,6 +55,7 @@ void onReceive(int inNumOfRecvBytes) {
 
   // Check if the received bytes are sufficient
   if (Wire.available() >= numOfAngles * bytesPerDouble) {
+    digitalWrite(2, LOW);
     for (int i = 0; i < numOfAngles * bytesPerDouble; i++) {
       buffer[i] = Wire.read();
     }
@@ -80,6 +81,8 @@ void onReceive(int inNumOfRecvBytes) {
         (angle2 >= 72.0 && angle2 <= 132.0) &&
         (angle3 >= 0.0 && angle3 <= 180.0)) {
       delayAndMoveServo(delay_time, angle1, angle2, angle3);
+      delay(10);
+      digitalWrite(2, HIGH);
     } else {
       Serial.println("Angles are out of range.");
     }
@@ -97,6 +100,8 @@ void setup() {
   Serial.begin(9600); // serial.print用
 
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(2, OUTPUT);
+  digitalWrite(2, HIGH);
 
   // サーボのピンに接続
   servo1.attach(9);
