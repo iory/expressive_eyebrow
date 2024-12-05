@@ -111,7 +111,7 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(2, OUTPUT);
-  digitalWrite(2, LOW);
+  digitalWrite(2, HIGH);  // servo off.
 
   // サーボのピンに接続
   servo1.attach(9);
